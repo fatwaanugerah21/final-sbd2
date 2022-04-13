@@ -1,0 +1,9 @@
+{
+  "news_limit": 5,
+  "db": {
+    "url": "mongodb://localhost:27017/",
+    "name": "tugas",
+    "user": "",
+    "password": ""
+  }
+}
