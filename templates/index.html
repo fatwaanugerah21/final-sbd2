@@ -11,5 +11,25 @@
     <a href="/login">Ke Login</a>
     <a href="/signup">Ke Daftar</a>
     <a href="/news/create">Buat Berita</a>
+
+    <h1>Berita</h1>
+
+    {% for n in news %}
+    <h1>{{n.title}}</h1>
+    <p>Dibuat pada : {{n.created}}</p>
+    <p>Penulis : {{n.writer}}</p>
+    <p>Penulis : {{n.text}}</p>
+    {% endfor %}
+
+    <a
+      href="/news?start={{start-1}}"
+      style="display: {{none if start==0 else block}}"
+      >Previous</a
+    >
+    <a
+      href="/news?start={{start+1}}"
+      style="display: {{none if not hasMore else block}}"
+      >Next</a
+    >
   </body>
 </html>
