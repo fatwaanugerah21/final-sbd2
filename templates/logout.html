@@ -1,0 +1,14 @@
+{% extends "layout/main.html" %} {% block content %}
+
+<div class="flex h-screen items-center justify-center">
+  <p class="text-xl">Logging Out</p>
+</div>
+
+<script>
+  (() => {
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 100);
+  })();
+</script>
+{% endblock %}

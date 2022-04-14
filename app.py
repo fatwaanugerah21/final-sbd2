@@ -1,8 +1,10 @@
 
 
+from datetime import timedelta
+from threading import Timer
 from config import config
 from constants import jwt_access_cookie_name
-from flask_jwt_extended import create_access_token, JWTManager, current_user, decode_token, verify_jwt_in_request
+from flask_jwt_extended import create_access_token, JWTManager, get_jwt_identity
 import bcrypt
 from flask import Flask, redirect, render_template, request, make_response
 
@@ -12,6 +14,8 @@ from models.news import News
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = config["jwt_secret"]
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=5)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 JWTManager(app)
 
 category_model = Category()
@@ -59,12 +63,17 @@ def news():
         currentText = n["text"]
         n["text"] = getTrimmedWords(currentText)
     hasMore = news["pagination"]["hasMore"]
-    return render_template("index.html", news=news["data"], start=start, hasMore=hasMore, categories=categories, activeCategory=categoryArgs, mostReadedNews=mostReadedNews)
+    return render_template("index.html", news=news["data"], start=start, hasMore=hasMore, categories=categories, activeCategory=categoryArgs, mostReadedNews=mostReadedNews["data"])
 
 
 @app.route("/news/<string:id>")
 def news_detail(id):
+
     news = news_model.find_by_id(id)
+    currentReaded = news["readed"]
+    news["readed"] = currentReaded + 1
+    news.pop("_id")
+    news_model.update(id, news)
     return render_template("news_detail.html", news=news)
 
 
@@ -98,6 +107,12 @@ def login():
 
         return render_template("login.html", success=False, message="User tidak ditemukan")
 
+@app.route("/logout")
+def logout():
+    resp = make_response(render_template("logout.html"))
+    resp.delete_cookie(jwt_access_cookie_name)
+    return resp
+
 # Untuk daftar user
 
 
@@ -122,27 +137,34 @@ def signup():
             "password": password,
         })
 
-        return "User berhasil dibuat"
+        return render_template("signup.html", success=True)
 
 # Untuk input berita
 
 
-@app.route("/news/create", methods=["GET", "POST"])
+@app.route("/news_create", methods=["GET", "POST"])
 def create_news():
     access_token = request.cookies.get(jwt_access_cookie_name)
-    decoded = decode_token(access_token)
 
     if access_token == None:
         return "Login dulu"
+    categories = category_model.find({})
     if request.method == "GET":
-        categories = category_model.find({})
-        return render_template("create-news.html", categories=categories)
+        return render_template("create-news.html", categories=categories, emptyFields={})
 
     if request.method == "POST":
         title = request.form.get("title")
         writer = request.form.get("writer")
         text = request.form.get("text")
         category = request.form.get("category")
+        if title == None or writer == None or text == None:
+            emptyFields = {
+                "title": title == None,
+                "writer": writer == None,
+                "text": text == None,
+                "category": category == None,
+            }
+            return render_template("create-news.html", categories=categories, success=True, emptyFields=emptyFields)
 
         newNewsData = {
             "title": title,
@@ -153,10 +175,10 @@ def create_news():
         }
         news_model.create(newNewsData)
 
-        return "Success ditambahkan"
+        return render_template("create-news.html", categories=categories, success=True, emptyFields={})
 
 
-@app.route("/category/create", methods=["GET", "POST"])
+@app.route("/create_category", methods=["GET", "POST"])
 def create_category():
     if request.method == "GET":
         return render_template("create-category.html")
@@ -164,7 +186,6 @@ def create_category():
     if request.method == "POST":
         categoryName = request.form.get("name")
         category_model.create({"name": categoryName})
-        return "Kategori success ditambahkan"
-
+        return render_template("create-category.html", success=True)
 
 app.run(debug=True)

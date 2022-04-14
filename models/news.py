@@ -32,7 +32,7 @@ class News(object):
             "title", "writer", "text", "category", "readed"]
 
         # Fields optional for UPDATE
-        self.update_optional_fields = []
+        self.update_optional_fields = ["created","updated"]
 
     def create(self, news):
         # Validator will throw error if invalid

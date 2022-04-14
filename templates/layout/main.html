@@ -3,14 +3,120 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>{% block title %}{% endblock %} - My Webpage</title>
     {% block html_head %}{% endblock %}
   </head>
 
+  <body class="overflow-x-hidden">
+    <nav
+      class="bg-white border-gray-200 px-2 sm:px-4 py-4 rounded dark:bg-gray-800 static top-0 w-screen"
+    >
+      <div
+        class="container flex flex-wrap justify-between items-center mx-auto"
+      >
+        <span
+          class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+          ><a href="/">Kelompok 5</a></span
+        >
+
+        <div class="hidden w-full md:block md:w-auto" id="mobile-menu">
+          <ul
+            class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
+          >
+            <li>
+              <a
+                href="/news"
+                class="menu-item block py-2 pr-4 pl-3"
+                aria-current="page"
+                >Berita</a
+              >
+            </li>
+            <li>
+              <a
+                href="/news_create"
+                id="createNews"
+                class="menu-item block py-2 pr-4 pl-3"
+                aria-current="page"
+                style="display: none"
+                >Buat Berita</a
+              >
+            </li>
+            <li>
+              <a
+                href="/create_category"
+                id="createCategory"
+                style="display: none"
+                class="menu-item block py-2 pr-4 pl-3"
+                aria-current="page"
+                >Buat Kategori</a
+              >
+            </li>
+            <li>
+              <a
+                href="/login"
+                id="to-login-nav"
+                class="menu-item block py-2 pr-4 pl-3"
+                aria-current="page"
+                >Login</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="content" class="min-w-screen min-h-screen felx flex-col">
+      {% block content %} {% endblock %}
+    </main>
+
+    <footer id="footer">{% block footer %} {% endblock %}</footer>
+  </body>
+
   <script>
-    function setUrlParameter(name, value, e) {
+    (function () {
+      var current = location.pathname.split("/")[1];
+      if (current === "") return;
+      var menuItems = document.querySelectorAll(".menu-item");
+      for (var i = 0, len = menuItems.length; i < len; i++) {
+        if (menuItems[i].getAttribute("href") === "/" + current) {
+          menuItems[i].className += " text-blue-500";
+        }
+      }
+
+      // Checking is login
+      const toLoginNav = document.getElementById("to-login-nav");
+      const createNewsNav = document.getElementById("createNews");
+      const createCategoryNav = document.getElementById("createCategory");
+
+      // createNewsNav.
+      const cookies = document.cookie.split(";");
+      let isLogin = false;
+      cookies.forEach((c) => {
+        const splittedCookie = c.split("=");
+        const key = splittedCookie[0];
+        const val = splittedCookie[1];
+        if (key === "access_key") isLogin = true;
+      });
+
+      if (isLogin) {
+        toLoginNav.innerText = "Logout";
+        toLoginNav.setAttribute("href", "/logout");
+        createNewsNav.style.display = "block";
+        createCategoryNav.style.display = "block";
+      }
+    })();
+  </script>
+
+  <script>
+    function setUrlParameter(name, value) {
       var searchParams = new URLSearchParams(window.location.search);
       searchParams.set(name, value);
+      window.location.search = searchParams.toString();
+    }
+    function deleteUrlParameter(name) {
+      var searchParams = new URLSearchParams(window.location.search);
+      searchParams.delete(name);
       window.location.search = searchParams.toString();
     }
 
@@ -25,18 +131,16 @@
     }
 
     function handleNextNewsClick() {
-      const currentStart = parseInt(getUrlParameter("start"));
+      const currentStart = parseInt(getUrlParameter("start") || "0");
       setUrlParameter("start", currentStart + 1);
     }
 
     function handleCategoryChange(e) {
       setUrlParameter("category", e.value);
     }
+
+    function resetCategory() {
+      deleteUrlParameter("category");
+    }
   </script>
-
-  <body>
-    <main id="content">{% block content %} {% endblock %}</main>
-
-    <footer id="footer">{% block footer %} {% endblock %}</footer>
-  </body>
 </html>

@@ -1,43 +1,73 @@
 {% extends "layout/main.html" %} {% block title %} Berita {% endblock %} {%
 block content %}
-<body>
-  <h1>Utama</h1>
+<div class="p-5 bg-gray-100">
+  <h1 class="text-center font-bold text-2xl mb-3">Berita</h1>
 
-  <select name="category" onchange="handleCategoryChange(this)">
-    {% for c in categories %}
-    <option value="{{c.name}}">{{c.name}}</option>
-    {% endfor %}
-  </select>
+  <div class="grid grid-cols-5 gap-x-5">
+    <div class="col-span-4 space-y-2 flex-shrink-0">
+      {% for n in news %}
+      <div class="bg-white shadow-md rounded-md p-3">
+        <a href="/news/{{n['_id']}}">
+          <p class="font-bold text-lg">{{n.title}}</p>
+        </a>
+        <p><span class="">{{n.writer}}</span></p>
+        <p>Kategori : <span class="">{{n.category}}</span></p>
+        <p class="text-gray-600">{{n.text}}</p>
+        <a href="/news/{{n['_id']}}" class="text-blue-400 hover:text-blue-500">
+          Lihat Detail
+        </a>
+      </div>
+      {% endfor %}
 
-  <a href="/login">Ke Login</a>
-  <a href="/signup">Ke Daftar</a>
-  <a href="/news/create">Buat Berita</a>
-  <a href="/category/create">Buat Kategori</a>
+      <div class="flex justify-between">
+        {% if start == 0 %}
+        <div></div>
+        {% endif %}
+        <button
+          onclick="handlePreviousNewsClick()"
+          class="w-52 rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400"
+          style="display: {{none if start == 0 else block}}"
+        >
+          Previous
+        </button>
+        <button
+          class="w-52 rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400"
+          onclick="handleNextNewsClick()"
+          href="/news?start={{start+1}}"
+          style="display: {{none if not hasMore else block}}"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col col-span-1">
+      {% for c in categories %}
+      <button
+        class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
+        value="{{c.name}}"
+        onclick="handleCategoryChange(this)"
+      >
+        {{c.name}}
+      </button>
+      {% endfor %}
+      <button
+        class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
+        onclick="resetCategory()"
+      >
+        Reset Kategori
+      </button>
 
-  <h1>Berita</h1>
-
-  {% for n in news %}
-  <a href="/news/{{n['_id']}}">
-    <h1>{{n.title}}</h1>
-  </a>
-  <p>Dibuat pada : {{n.created}}</p>
-  <p>Penulis : {{n.writer}}</p>
-  <p>Penulis : {{n.text}}</p>
-  <p>Kategori : {{n.category}}</p>
-  {% endfor %}
-
-  <button
-    onclick="handlePreviousNewsClick()"
-    style="display: {{none if start == 0 else block}}"
-  >
-    Previous
-  </button>
-  <button
-    onclick="handleNextNewsClick()"
-    href="/news?start={{start+1}}"
-    style="display: {{none if not hasMore else block}}"
-  >
-    Next
-  </button>
-</body>
+      <div class="mt-5">
+        <h1 class="text-xl font-semibold">Paling sering dibaca</h1>
+        {% for mr in mostReadedNews %}
+        <p
+          class="bg-white my-1 shadow-md p-2 hover:scale-105 transition-all duration-150"
+        >
+          <a href="/news/{{mr._id}}" class="">{{mr.title}}</a>
+        </p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

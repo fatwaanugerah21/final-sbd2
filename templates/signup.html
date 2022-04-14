@@ -1,40 +1,107 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Signup</title>
-  </head>
-  <body>
-    <h1>Signup</h1>
-
-    <form action="" method="post">
+{% extends "layout/main.html" %} {% block title %} Login {% endblock %} {% block
+content %}
+<div
+  class="bg-gray-400 min-w-screen min-h-screen flex flex-col items-center justify-center"
+>
+  <a style="width: 30%" href="/" class="mb-2 flex items-center">
+    <span class="hover:scale-110 duration-150 transition-all"
+      >Kembali ke halaman utama</span
+    >
+  </a>
+  <form
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col"
+    style="width: 30%"
+    method="post"
+    action=""
+  >
+    <div class="mb-4">
+      <label
+        class="block text-grey-darker text-sm font-bold mb-2"
+        for="firstname"
+      >
+        Nama Depan
+      </label>
       <input
-        type="text"
-        placeholder="Firstname"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+        autofocus
         name="firstname"
+        type="text"
         value="{{ request.form.firstname }}"
+        placeholder="Nama Depan"
       />
+    </div>
+    <div class="mb-4">
+      <label
+        class="block text-grey-darker text-sm font-bold mb-2"
+        for="lastname"
+      >
+        Nama Belakang
+      </label>
       <input
-        type="text"
-        placeholder="Lastname"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
         name="lastname"
-        value="{{ request.form.lastname }}"
-      />
-      <input
         type="text"
-        placeholder="Username"
-        name="username"
-        value="{{ request.form.username }}"
+        value="{{ request.form.lastname }}"
+        placeholder="Nama Belakang"
       />
+    </div>
+    <div class="mb-4">
+      <label
+        class="block text-grey-darker text-sm font-bold mb-2"
+        for="username"
+      >
+        Username
+      </label>
       <input
-        type="password"
-        placeholder="Password"
-        name="password"
-        value="{{ request.form.password }}"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker"
+        name="username"
+        type="text"
+        value="{{ request.form.username }}"
+        placeholder="Username"
       />
+    </div>
+    <div class="mb-6">
+      <label
+        class="block text-grey-darker text-sm font-bold mb-2"
+        for="password"
+      >
+        Password
+      </label>
+      <input
+        class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3"
+        name="password"
+        type="password"
+        value="{{ request.form.password }}"
+        placeholder="******************"
+      />
+      <p class="text-red text-xs italic">Please choose a password.</p>
+    </div>
+    <div class="flex items-center justify-between">
+      <button
+        class="bg-blue-500 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
+        type="submit"
+      >
+        Daftar
+      </button>
+    </div>
+    {% if not success %}
+    <p class="text-red-500 mt-3">{{message}}</p>
+    {% endif %} {% if success == True %}
+    <p class="text-green-500 mt-3">User Berhasil Dibuat</p>
+    {% endif %}
+  </form>
 
-      <button type="submit">Submit</button>
-    </form>
-  </body>
-</html>
+  <div class="flex space-x-1">
+    <p class="">Sudah punya akun?</p>
+    <a class="text-blue-500 hover:text-blue-600" href="/login">Login</a>
+  </div>
+</div>
+
+<script>
+  const success = "{{success}}";
+  if (success === "True")
+    setTimeout(() => {
+      window.location.replace("/login");
+    }, 1000);
+</script>
+{% endblock %}

@@ -1,40 +1,65 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create News</title>
-  </head>
-  <body>
-    <h1>Create News</h1>
+{% extends "layout/main.html" %} {% block content %}
 
-    <form action="" method="post">
-      <input
-        type="text"
-        placeholder="Judul"
-        name="title"
-        value="{{ request.form.title }}"
-      />
-      <input
-        type="text"
-        placeholder="Penulis"
-        name="writer"
-        value="{{ request.form.writer }}"
-      />
-      <input
-        type="text"
-        placeholder="Isi berita"
-        name="text"
-        value="{{ request.form.text }}"
-      />
+<div class="h-screen w-screen p-10 bg-gray-300">
+  <form class="bg-white p-5 rounded-md" method="post">
+    <header class="mb-3 text-2xl font-bold">Tulis Beritamu</header>
 
-      <select name="category">
-        {% for c in categories %}
-        <option value="{{c.name}}">{{c.name}}</option>
-        {% endfor %}
-      </select>
+    <div x-show="isLoginPage" class="space-y-4">
+      <div>
+        <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+          <input
+            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+            type="text"
+            placeholder="Judul"
+            name="title"
+            autofocus
+          />
+        </div>
+        {% if emptyFields["title"] == False %}
+        <p class="text-red-500 ml-4 mt-1">Tolong isi Judul</p>
+        {% endif %}
+      </div>
+      <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+        <input
+          type="text"
+          class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+          name="writer"
+          placeholder="Penulis"
+        />
+      </div>
+      <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+        <textarea
+          placeholder="Berita"
+          name="text"
+          rows="5"
+          class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+        ></textarea>
+      </div>
+      <div>
+        <select name="category">
+          {% for c in categories %}
+          <option value="{{c.name}}">{{c.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button
+        class="w-52 rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400"
+      >
+        Buat Berita
+      </button>
 
-      <button type="submit">Submit</button>
-    </form>
-  </body>
-</html>
+      {% if success == True %}
+      <p class="text-green-500 font-semibold text-xl">Berita berhasil dibuat</p>
+      {% endif %}
+    </div>
+  </form>
+</div>
+
+<script>
+  const success = "{{success}}";
+  if (success === "True")
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 1000);
+</script>
+{% endblock %}
