@@ -41,11 +41,11 @@ class News(object):
         res = self.db.insert(news, self.collection_name)
         return "Inserted Id " + res
 
-    def find(self, filter, start, limit=config["news_limit"]):
+    def find(self, filter, start, sort=["created", -1], limit=config["news_limit"]):
         # skip & limit is for pagination
         # limit + 1 is for checking hasMore
         data = self.db.find(filter, self.collection_name,
-                            cursor=True).skip(start).limit(limit).sort("created", -1)
+                            cursor=True).skip(start).limit(limit).sort(sort[0], sort[1])
         data = convert_id(data)
 
         # Pagination stuff

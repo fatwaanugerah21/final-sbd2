@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% block html_head %}{% endblock %}
+  </head>
+
+  <script>
+    function setUrlParameter(name, value, e) {
+      var searchParams = new URLSearchParams(window.location.search);
+      searchParams.set(name, value);
+      window.location.search = searchParams.toString();
+    }
+
+    function getUrlParameter(name) {
+      var searchParams = new URLSearchParams(window.location.search);
+      return searchParams.get(name);
+    }
+
+    function handlePreviousNewsClick() {
+      const currentStart = parseInt(getUrlParameter("start"));
+      setUrlParameter("start", currentStart - 1);
+    }
+
+    function handleNextNewsClick() {
+      const currentStart = parseInt(getUrlParameter("start"));
+      setUrlParameter("start", currentStart + 1);
+    }
+
+    function handleCategoryChange(e) {
+      setUrlParameter("category", e.value);
+    }
+  </script>
+
+  <body>
+    <main id="content">{% block content %} {% endblock %}</main>
+
+    <footer id="footer">{% block footer %} {% endblock %}</footer>
+  </body>
+</html>

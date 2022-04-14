@@ -1,5 +1,7 @@
 {
   "news_limit": 5,
+  "jwt_secret": "jwtverysecret",
+  "access_token_cookie_name": "access_token",
   "db": {
     "url": "mongodb://localhost:27017/",
     "name": "tugas",
