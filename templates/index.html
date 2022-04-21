@@ -19,6 +19,14 @@ block content %}
         <p><span class="">{{n.writer}}</span></p>
         <p>Kategori : <span class="">{{n.category}}</span></p>
         <p class="text-gray-600">{{n.text}}</p>
+        {% if n["tags"]|length > 1 %}
+        <p class="my-2">
+          <span class="font-semibold">Tags : </span>
+          {% for t in n["tags"] %}
+          <span class="border rounded-full px-5 py-1">{{t}}</span>
+          {% endfor %}
+        </p>
+        {% endif %}
         <a href="/news/{{n['_id']}}" class="text-blue-400 hover:text-blue-500">
           Lihat Detail
         </a>
@@ -47,9 +55,10 @@ block content %}
       </div>
     </div>
     <div class="flex flex-col col-span-1">
+      <h1 class="text-xl font-semibold">Filter Kategori</h1>
       {% for c in categories %}
       <button
-        class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
+        class="category_item py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
         value="{{c.name}}"
         onclick="handleCategoryChange(this)"
       >
@@ -72,6 +81,26 @@ block content %}
           <a href="/news/{{mr._id}}" class="">{{mr.title}}</a>
         </p>
         {% endfor %}
+      </div>
+      {% endif %} {% if tags|length > 1 %}
+      <div class="flex flex-col col-span-1">
+        <h1 class="text-xl font-semibold">Tag terfavorit</h1>
+        {% for t in tags %}
+        <button
+          class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150 tag_item"
+          value="{{t.name}}"
+          onclick="handleTagChange(this)"
+        >
+          {{t.name}}
+        </button>
+        {% endfor %} {% if tags|length > 1 %}
+        <button
+          class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
+          onclick="resetTag()"
+        >
+          Reset Tag
+        </button>
+        {% endif %}
       </div>
       {% endif %}
     </div>

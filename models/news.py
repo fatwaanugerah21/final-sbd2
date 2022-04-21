@@ -16,23 +16,24 @@ class News(object):
             "writer": "string",
             "text": "string",
             "category": "string",
+            "tags": "array",
             "readed": "integer",
             "created": "datetime",
             "updated": "datetime",
         }
 
         self.create_required_fields = [
-            "title", "writer", "text", "category", "readed"]
+            "title", "writer", "text", "category", "readed", "tags"]
 
         # Fields optional for CREATE
         self.create_optional_fields = []
 
         # Fields required for UPDATE
         self.update_required_fields = [
-            "title", "writer", "text", "category", "readed"]
+            "title", "writer", "text", "category", "readed", "tags"]
 
         # Fields optional for UPDATE
-        self.update_optional_fields = ["created","updated"]
+        self.update_optional_fields = ["created", "updated"]
 
     def create(self, news):
         # Validator will throw error if invalid

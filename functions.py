@@ -27,6 +27,6 @@ def getCategoryFilter(oldFilter, category):
 def getTagFilter(oldFilter, tag):
 
     if not (tag == None):
-        oldFilter["tag"] = tag
+        oldFilter["tags"] = {"$in": [tag]}
 
     return oldFilter

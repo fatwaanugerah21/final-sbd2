@@ -84,43 +84,6 @@
   </body>
 
   <script>
-    (function () {
-      var current = location.pathname.split("/")[1];
-      if (current === "") return;
-      var menuItems = document.querySelectorAll(".menu-item");
-      for (var i = 0, len = menuItems.length; i < len; i++) {
-        if (menuItems[i].getAttribute("href") === "/" + current) {
-          menuItems[i].className += " !text-blue-500 dark:!text-blue-500";
-        }
-      }
-
-      // Checking is login
-      const toLoginNav = document.getElementById("to-login-nav");
-      const createNewsNav = document.getElementById("createNews");
-      const createCategoryNav = document.getElementById("createCategory");
-      const createTagNav = document.getElementById("createTag");
-
-      // createNewsNav.
-      const cookies = document.cookie.split(";");
-      let isLogin = false;
-      cookies.forEach((c) => {
-        const splittedCookie = c.split("=");
-        const key = splittedCookie[0];
-        const val = splittedCookie[1];
-        if (key === "access_token_cookie") isLogin = true;
-      });
-
-      if (isLogin) {
-        toLoginNav.innerText = "Logout";
-        toLoginNav.setAttribute("href", "/logout");
-        createNewsNav.style.display = "block";
-        createCategoryNav.style.display = "block";
-        createTagNav.style.display = "block";
-      }
-    })();
-  </script>
-
-  <script>
     /**
      * Name: String[]
      * value: String[]
@@ -158,9 +121,69 @@
     function handleCategoryChange(e) {
       setUrlParameter(["category", "start"], [e.value, 0]);
     }
+    function handleTagChange(e) {
+      setUrlParameter(["tag", "start"], [e.value, 0]);
+    }
 
     function resetCategory() {
       deleteUrlParameter("category");
     }
+
+    function resetTag() {
+      deleteUrlParameter("tag");
+    }
+  </script>
+
+  <script>
+    (function () {
+      var current = location.pathname.split("/")[1];
+      if (current === "") return;
+      var menuItems = document.querySelectorAll(".menu-item");
+      for (var i = 0, len = menuItems.length; i < len; i++) {
+        if (menuItems[i].getAttribute("href") === "/" + current) {
+          menuItems[i].className += " !text-blue-500 dark:!text-blue-500";
+        }
+      }
+
+      var categoryList = document.querySelectorAll(".category_item");
+      categoryList.forEach((c) => {
+        var activeCategory = getUrlParameter("category");
+        if (c.value === activeCategory) {
+          c.className += " scale-110 text-blue-500";
+        }
+      });
+
+      var tagList = document.querySelectorAll(".tag_item");
+      tagList.forEach((c) => {
+        var activeTag = getUrlParameter("tag");
+        if (c.value === activeTag) {
+          c.className += " scale-110 text-blue-500";
+        }
+      });
+
+      // Checking is login
+      const toLoginNav = document.getElementById("to-login-nav");
+      const createNewsNav = document.getElementById("createNews");
+      const createCategoryNav = document.getElementById("createCategory");
+      const createTagNav = document.getElementById("createTag");
+
+      // createNewsNav.
+      const cookies = document.cookie.split(";");
+      let isLogin = false;
+      cookies.forEach((c) => {
+        const splittedCookie = c.split("=");
+        const key = splittedCookie[0];
+        const val = splittedCookie[1];
+        if (key === "access_token_cookie") isLogin = true;
+      });
+
+      if (isLogin) {
+        toLoginNav.innerText = "Logout";
+        toLoginNav.setAttribute("href", "/logout");
+        createNewsNav.style.display = "block";
+        createCategoryNav.style.display = "block";
+        createTagNav.style.display = "block";
+      }
+    })();
   </script>
 </html>

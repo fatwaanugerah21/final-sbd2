@@ -21,6 +21,7 @@ def news():
     tagArgs = request.args.get("tag")
 
     categories = category_model.find({})
+    tags = tag_model.get_10_favourites({})
 
     start = 0 if startArgs == None else int(startArgs)
     limit = config["news_limit"]
@@ -30,15 +31,15 @@ def news():
                                categoryArgs)
     filter = getTagFilter(filter,
                           tagArgs)
-
     news = news_model.find(filter, start=start * limit, limit=limit)
+    print(news)
     mostReadedNews = news_model.find(
         {}, start=0, limit=limit, sort=["readed", -1])
     for n in news["data"]:
         currentText = n["text"]
         n["text"] = getTrimmedWords(currentText)
     hasMore = news["pagination"]["hasMore"]
-    return render_template("index.html", news=news["data"], start=start, hasMore=hasMore, categories=categories, activeCategory=categoryArgs, mostReadedNews=mostReadedNews["data"])
+    return render_template("index.html", news=news["data"], start=start, hasMore=hasMore, categories=categories, activeCategory=categoryArgs, mostReadedNews=mostReadedNews["data"], tags=tags)
 
 
 @newsBp.route("/news/<string:id>")
@@ -74,14 +75,21 @@ def create_news():
         text = request.form.get("text")
         category = request.form.get("category")
         tags = request.form.getlist("tags")
-        return render_template("create-news.html", categories=categories, tags=tags, emptyFields={})
-        return "Success"
+
+        for t in tags:
+            dbTags = tag_model.find({"name": t})
+            tag = dbTags[0]
+            tagId = tag["_id"]
+            tag["used"] += 1
+            tag.pop("_id")
+            tag_model.update(tagId, tag)
         if title == None or writer == None or text == None:
             emptyFields = {
                 "title": title == None,
                 "writer": writer == None,
                 "text": text == None,
                 "category": category == None,
+                "tags": tags == None,
             }
             return render_template("create-news.html", categories=categories, success=True, emptyFields=emptyFields)
 
@@ -90,6 +98,7 @@ def create_news():
             "writer": writer,
             "text": text,
             "category": category,
+            "tags": tags,
             "readed": 0
         }
         news_model.create(newNewsData)
