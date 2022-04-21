@@ -5,7 +5,13 @@ block content %}
 
   <div class="grid grid-cols-5 gap-x-5">
     <div class="col-span-4 space-y-2 flex-shrink-0">
-      {% for n in news %}
+      {% if news|length < 1 %}
+
+      <p class="text-lg font-semibold flex items-center justify-center h-full">
+        Berita tidak ditemukan
+      </p>
+
+      {% endif %} {% for n in news %}
       <div class="bg-white shadow-md rounded-md p-3">
         <a href="/news/{{n['_id']}}">
           <p class="font-bold text-lg">{{n.title}}</p>
@@ -49,14 +55,14 @@ block content %}
       >
         {{c.name}}
       </button>
-      {% endfor %}
+      {% endfor %} {% if categories|length > 1 %}
       <button
         class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
         onclick="resetCategory()"
       >
         Reset Kategori
       </button>
-
+      {% endif %} {% if news|length > 1 %}
       <div class="mt-5">
         <h1 class="text-xl font-semibold">Paling sering dibaca</h1>
         {% for mr in mostReadedNews %}
@@ -67,6 +73,7 @@ block content %}
         </p>
         {% endfor %}
       </div>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -35,10 +35,20 @@
           class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
         ></textarea>
       </div>
-      <div>
-        <select name="category">
+      <div class="flex flex-col">
+        <label for="category" class="font-semibold">Kategori</label>
+        <select name="category" class="w-80 border">
           {% for c in categories %}
           <option value="{{c.name}}">{{c.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="tags" class="font-semibold">Tag</label>
+        <select name="tags" multiple class="w-80 border">
+          {% for t in tags %}
+          <option value="{{t.name}}">{{t.name}}</option>
           {% endfor %}
         </select>
       </div>
