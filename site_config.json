@@ -4,8 +4,6 @@
   "access_token_cookie_name": "access_token",
   "db": {
     "url": "mongodb://localhost:27017/",
-    "name": "tugas",
-    "user": "",
-    "password": ""
+    "name": "tugas"
   }
 }
