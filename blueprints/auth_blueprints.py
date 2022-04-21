@@ -2,7 +2,7 @@ import bcrypt
 from flask import Blueprint, make_response, render_template, request
 from flask_jwt_extended import create_access_token
 from constants import jwt_access_cookie_name
-from models.user import User
+from models.user_model import User
 
 
 user_model = User()

@@ -14,7 +14,8 @@ class Database(object):
     def insert(self, element, collection_name):
         element["created"] = datetime.now()
         element["updated"] = datetime.now()
-        inserted = self.db[collection_name].insert_one(element)  # insert data to db
+        inserted = self.db[collection_name].insert_one(
+            element)  # insert data to db
         return str(inserted.inserted_id)
 
     def find(self, criteria, collection_name, projection=None, sort=None, limit=0, skip=0, cursor=False):  # find all from db
@@ -22,7 +23,8 @@ class Database(object):
         if "_id" in criteria:
             criteria["_id"] = ObjectId(criteria["_id"])
 
-        found = self.db[collection_name].find(filter=criteria, projection=projection, skip=skip, limit=limit, sort=sort)
+        found = self.db[collection_name].find(
+            filter=criteria, projection=projection, skip=skip, limit=limit, sort=sort)
 
         if cursor:
             return found
@@ -32,12 +34,12 @@ class Database(object):
 
     def find_by_id(self, id, collection_name):
         found = self.db[collection_name].find_one({"_id": ObjectId(id)})
-        
+
         if found is None:
             return not found
-        
+
         if "_id" in found:
-             found["_id"] = str(found["_id"])
+            found["_id"] = str(found["_id"])
 
         return found
 

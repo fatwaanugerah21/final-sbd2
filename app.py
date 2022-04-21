@@ -6,13 +6,13 @@ from flask_jwt_extended import JWTManager
 
 from flask import Flask, redirect
 
-from models.category import Category
-from models.news import News
+from models.category_model import Category
+from models.news_model import News
 
-from blueprints.auth import authBp
-from blueprints.news import newsBp
-from blueprints.category import categoryBp
-from blueprints.tag import tagBp
+from blueprints.auth_blueprints import authBp
+from blueprints.news_blueprint import newsBp
+from blueprints.category_blueprints import categoryBp
+from blueprints.tag_blueprint import tagBp
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = config["jwt_secret"]

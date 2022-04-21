@@ -3,9 +3,9 @@ from constants import jwt_access_cookie_name
 from config import config
 from functions import getCategoryFilter, getTagFilter, getTrimmedWords
 
-from models.category import Category
-from models.news import News
-from models.tag import Tag
+from models.category_model import Category
+from models.news_model import News
+from models.tag_model import Tag
 
 category_model = Category()
 tag_model = Tag()
