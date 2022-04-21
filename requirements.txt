@@ -1,4 +1,5 @@
 flask
 pymongo
 bcrypt
+pymongo[srv]
 flask_jwt_extended
