@@ -76,6 +76,16 @@ def create_news():
         category = request.form.get("category")
         tags = request.form.getlist("tags")
 
+        if not title or not writer or not text or not tags:
+            emptyFields = {
+                "title": not title ,
+                "writer": not writer ,
+                "text": not text ,
+                "category": not category ,
+                "tags": not tags ,
+            }
+            return render_template("create-news.html", categories=categories, success=False, emptyFields=emptyFields)
+
         for t in tags:
             dbTags = tag_model.find({"name": t})
             tag = dbTags[0]
@@ -83,15 +93,6 @@ def create_news():
             tag["used"] += 1
             tag.pop("_id")
             tag_model.update(tagId, tag)
-        if title == None or writer == None or text == None:
-            emptyFields = {
-                "title": title == None,
-                "writer": writer == None,
-                "text": text == None,
-                "category": category == None,
-                "tags": tags == None,
-            }
-            return render_template("create-news.html", categories=categories, success=True, emptyFields=emptyFields)
 
         newNewsData = {
             "title": title,

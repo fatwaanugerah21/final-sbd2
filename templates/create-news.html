@@ -15,42 +15,62 @@
             autofocus
           />
         </div>
-        {% if emptyFields["title"] == False %}
+        {% if emptyFields["title"] == True %}
         <p class="text-red-500 ml-4 mt-1">Tolong isi Judul</p>
         {% endif %}
       </div>
-      <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
-        <input
-          type="text"
-          class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
-          name="writer"
-          placeholder="Penulis"
-        />
+      <div>
+        <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+          <input
+            type="text"
+            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+            name="writer"
+            placeholder="Penulis"
+          />
+        </div>
+        {% if emptyFields["writer"] == True %}
+        <p class="text-red-500 ml-4 mt-1">Tolong isi Penulis</p>
+        {% endif %}
       </div>
-      <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
-        <textarea
-          placeholder="Berita"
-          name="text"
-          rows="5"
-          class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
-        ></textarea>
+      <div>
+        <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+          <textarea
+            placeholder="Berita"
+            name="text"
+            rows="5"
+            class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+          ></textarea>
+        </div>
+        {% if emptyFields["text"] == True %}
+        <p class="text-red-500 ml-4 mt-1">Tolong isi Berita</p>
+        {% endif %}
       </div>
-      <div class="flex flex-col">
-        <label for="category" class="font-semibold">Kategori</label>
-        <select name="category" class="w-80 border">
-          {% for c in categories %}
-          <option value="{{c.name}}">{{c.name}}</option>
-          {% endfor %}
-        </select>
+      <div>
+        <div class="flex flex-col">
+          <label for="category" class="font-semibold">Kategori</label>
+          <select name="category" class="w-80 border">
+            {% for c in categories %}
+            <option value="{{c.name}}">{{c.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% if emptyFields["category"] == True %}
+        <p class="text-red-500 ml-4 mt-1">Tolong pilih kategori</p>
+        {% endif %}
       </div>
 
-      <div class="flex flex-col">
-        <label for="tags" class="font-semibold">Tag</label>
-        <select name="tags" multiple class="w-80 border">
-          {% for t in tags %}
-          <option value="{{t.name}}">{{t.name}}</option>
-          {% endfor %}
-        </select>
+      <div>
+        <div class="flex flex-col">
+          <label for="tags" class="font-semibold">Tag</label>
+          <select name="tags" multiple class="w-80 border">
+            {% for t in tags %}
+            <option value="{{t.name}}">{{t.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% if emptyFields["tags"] == True %}
+        <p class="text-red-500 ml-4 mt-1">Tolong pilih Tag</p>
+        {% endif %}
       </div>
       <button
         class="w-52 rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400"

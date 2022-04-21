@@ -4,15 +4,20 @@
   <form action="" class="space-y-2 bg-white rounded-md p-20" method="post">
     <header class="mb-3 text-2xl text-center font-bold">Tambahkan Tag</header>
 
-    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
-      <input
-        class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
-        type="text"
-        autofocus
-        placeholder="Nama Tag"
-        name="name"
-        value="{{ request.form.name }}"
-      />
+    <div class="mb-2">
+      <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+        <input
+          class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+          type="text"
+          autofocus
+          placeholder="Nama Tag"
+          name="name"
+          value="{{ request.form.name }}"
+        />
+      </div>
+      {% if not not errors and not not errors["tagName"] %}
+      <p class="text-red-500">Tolong input nama</p>
+      {% endif %}
     </div>
 
     <button

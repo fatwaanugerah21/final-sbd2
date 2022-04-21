@@ -13,5 +13,10 @@ def create_tag():
         return render_template("create-tag.html")
     if (request.method == "POST"):
         tagName = request.form.get("name")
+        if not tagName:
+            errors = {
+                "tagName": True
+            }
+            return render_template("create-tag.html", success=False, errors=errors)
         tag_model.create({"name": tagName, "used": 0})
         return render_template("create-tag.html", success=True)

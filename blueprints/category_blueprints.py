@@ -14,5 +14,11 @@ def create_category():
 
     if request.method == "POST":
         categoryName = request.form.get("name")
+        if not categoryName:
+            errors = {
+                "categoryName": True
+            }
+            print (errors)
+            return render_template("create-category.html", success=False, errors=errors)
         category_model.create({"name": categoryName})
         return render_template("create-category.html", success=True)

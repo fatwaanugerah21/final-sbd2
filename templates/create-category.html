@@ -6,17 +6,21 @@
       Tambahkan Kategori
     </header>
 
-    <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
-      <input
-        class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
-        autofocus
-        type="text"
-        placeholder="Nama Kategori"
-        name="name"
-        value="{{ request.form.name }}"
-      />
+    <div class="mb-2">
+      <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray-200">
+        <input
+          class="my-3 w-full border-none bg-transparent outline-none focus:outline-none"
+          autofocus
+          type="text"
+          placeholder="Nama Kategori"
+          name="name"
+          value="{{ request.form.name }}"
+        />
+      </div>
+      {% if not not errors and not not errors["categoryName"] %}
+      <p class="text-red-500">Tolong input nama</p>
+      {% endif %}
     </div>
-
     <button
       class="w-52 rounded-2xl border-b-4 border-b-blue-600 bg-blue-500 py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400"
     >

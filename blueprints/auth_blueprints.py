@@ -66,7 +66,7 @@ def login():
             access_token = create_access_token(identity=userFirstName + " " +
                                                userLastName)
             response = make_response(render_template(
-                "login.html", success=True, message="Selamat Datang Fatwa"))
+                "login.html", success=True, message="Selamat Datang " + userFirstName))
             response.set_cookie(jwt_access_cookie_name, access_token)
             return response
 
