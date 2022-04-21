@@ -1,7 +1,7 @@
 {% extends "layout/main.html" %} {% block title %} Berita {% endblock %} {%
 block content %}
 <div class="p-5 bg-gray-100">
-  <h1 class="text-center font-bold text-2xl mb-3">Berita</h1>
+  <h1 class="text-center font-bold text-2xl mb-3 bg-dark text-light">Berita</h1>
 
   <div class="grid grid-cols-5 gap-x-5">
     <div class="col-span-4 space-y-2 flex-shrink-0">
@@ -19,7 +19,7 @@ block content %}
         <p><span class="">{{n.writer}}</span></p>
         <p>Kategori : <span class="">{{n.category}}</span></p>
         <p class="text-gray-600">{{n.text}}</p>
-        {% if n["tags"]|length > 1 %}
+        {% if n["tags"]|length >= 1 %}
         <p class="my-2">
           <span class="font-semibold">Tags : </span>
           {% for t in n["tags"] %}
@@ -64,14 +64,14 @@ block content %}
       >
         {{c.name}}
       </button>
-      {% endfor %} {% if categories|length > 1 %}
+      {% endfor %} {% if categories|length >= 1 %}
       <button
         class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
         onclick="resetCategory()"
       >
         Reset Kategori
       </button>
-      {% endif %} {% if news|length > 1 %}
+      {% endif %} {% if news|length >= 1 %}
       <div class="mt-5">
         <h1 class="text-xl font-semibold">Paling sering dibaca</h1>
         {% for mr in mostReadedNews %}
@@ -82,7 +82,7 @@ block content %}
         </p>
         {% endfor %}
       </div>
-      {% endif %} {% if tags|length > 1 %}
+      {% endif %} {% if tags|length >= 1 %}
       <div class="flex flex-col col-span-1">
         <h1 class="text-xl font-semibold">Tag terfavorit</h1>
         {% for t in tags %}
@@ -93,7 +93,7 @@ block content %}
         >
           {{t.name}}
         </button>
-        {% endfor %} {% if tags|length > 1 %}
+        {% endfor %} {% if tags|length >= 1 %}
         <button
           class="py-2 shadow-md rounded-sm bg-white my-1 hover:scale-105 duration-150"
           onclick="resetTag()"

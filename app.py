@@ -20,9 +20,6 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=5)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
 JWTManager(app)
 
-category_model = Category()
-news_model = News()
-
 
 @app.route("/")
 def index():
