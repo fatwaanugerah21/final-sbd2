@@ -61,7 +61,7 @@ def create_news():
     access_token = request.cookies.get(jwt_access_cookie_name)
 
     if access_token == None:
-        return redirect("/login")
+        return "Login dulu"
 
     tags = tag_model.find({})
     categories = category_model.find({})
