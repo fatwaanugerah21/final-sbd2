@@ -18,7 +18,7 @@ class Database(object):
             element)  # insert data to db
         return str(inserted.inserted_id)
 
-    def find(self, criteria, collection_name, projection=None, sort=None, limit=0, skip=0, cursor=False):  # find all from db
+    def find(self, criteria, collection_name, projection=None, sort=None, limit=0, skip=0, raw=False):  # find all from db
 
         if "_id" in criteria:
             criteria["_id"] = ObjectId(criteria["_id"])
@@ -26,7 +26,7 @@ class Database(object):
         found = self.db[collection_name].find(
             filter=criteria, projection=projection, skip=skip, limit=limit, sort=sort)
 
-        if cursor:
+        if raw:
             return found
 
         found = convert_id(found)

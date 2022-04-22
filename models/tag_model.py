@@ -40,7 +40,7 @@ class Tag(object):
 
     def get_10_favourites(self, tag):
         data = self.db.find(tag, self.collection_name,
-                            cursor=True).sort("used", -1).limit(10)
+                            raw=True).sort("used", -1).limit(10)
         data = convert_id(data)
         return data
 

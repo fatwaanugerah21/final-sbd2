@@ -46,7 +46,7 @@ class News(object):
         # skip & limit is for pagination
         # limit + 1 is for checking hasMore
         data = self.db.find(filter, self.collection_name,
-                            cursor=True).skip(start).limit(limit).sort(sort[0], sort[1])
+                            raw=True).skip(start).limit(limit).sort(sort[0], sort[1])
         data = convert_id(data)
 
         # Pagination stuff

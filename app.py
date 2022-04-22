@@ -1,5 +1,3 @@
-
-
 from datetime import timedelta
 from config import config
 from flask_jwt_extended import JWTManager

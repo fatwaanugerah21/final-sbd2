@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 from constants import jwt_access_cookie_name
 from config import config
 from functions import getCategoryFilter, getTagFilter, getTrimmedWords
@@ -61,7 +61,7 @@ def create_news():
     access_token = request.cookies.get(jwt_access_cookie_name)
 
     if access_token == None:
-        return "Login dulu"
+        return redirect("/login")
 
     tags = tag_model.find({})
     categories = category_model.find({})
